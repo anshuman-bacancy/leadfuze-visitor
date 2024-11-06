@@ -5,6 +5,16 @@ import pandas as pd
 import boto3
 from boto3.dynamodb.conditions import Key
 
+mapping = {
+	"num_resolved": "Number of resolved",
+	"num_lf_matched": "Matched with Leadfuze",
+	"num_5x5_matched": "Matched with 5x5",
+	"num_5x5_not_matched": "Not matched with 5x5", 
+	"num_lf_us_based_matched": "Matched with Leadfuze (US only)",
+	"num_5x5_us_based_matched": "Matched with 5x5 (US only)",
+	"num_lf_5x5_matched": "Matched with Leadfuze and 5x5"
+}
+
 st.set_page_config(layout="wide")
 
 access_key = os.environ["AWS_ACCESS_KEY_ID"]
@@ -26,7 +36,7 @@ def fetch_data():
 	return response.get('Items', [])
 
 # Streamlit App
-st.title("Visitor Stats Dashboard")
+st.title("Leadfuze visitor stats")
 
 # Fetch data
 data = fetch_data()
@@ -34,6 +44,6 @@ data = fetch_data()
 if data:
 	for key, value in data[0].items():
 		if "id" not in key:
-			st.write(f"**{key}**: {value}")
+			st.write(f"**{mapping.get(key)}**: {value}")
 else:
 	st.write("No visitor data found")
