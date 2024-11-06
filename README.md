@@ -11,5 +11,5 @@ pip3 install -r requirements.txt
 
 ### run the streamlit app locally
 ```bash
-	streamlit run ./app.py OR streamlit run app.py
+streamlit run ./app.py OR streamlit run app.py
 ````
