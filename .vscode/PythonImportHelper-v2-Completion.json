@@ -1,0 +1,267 @@
+[
+    {
+        "label": "io",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "io",
+        "description": "io",
+        "detail": "io",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "boto3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "boto3",
+        "description": "boto3",
+        "detail": "boto3",
+        "documentation": {}
+    },
+    {
+        "label": "RequestsHttpNode",
+        "importPath": "elastic_transport",
+        "description": "elastic_transport",
+        "isExtraImport": true,
+        "detail": "elastic_transport",
+        "documentation": {}
+    },
+    {
+        "label": "OpenSearch",
+        "importPath": "opensearchpy",
+        "description": "opensearchpy",
+        "isExtraImport": true,
+        "detail": "opensearchpy",
+        "documentation": {}
+    },
+    {
+        "label": "NotFoundError",
+        "importPath": "opensearchpy",
+        "description": "opensearchpy",
+        "isExtraImport": true,
+        "detail": "opensearchpy",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "pyarrow.parquet",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pyarrow.parquet",
+        "description": "pyarrow.parquet",
+        "detail": "pyarrow.parquet",
+        "documentation": {}
+    },
+    {
+        "label": "ThreadPoolExecutor",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
+        "isExtraImport": true,
+        "detail": "concurrent.futures",
+        "documentation": {}
+    },
+    {
+        "label": "AWS4Auth",
+        "importPath": "requests_aws4auth",
+        "description": "requests_aws4auth",
+        "isExtraImport": true,
+        "detail": "requests_aws4auth",
+        "documentation": {}
+    },
+    {
+        "label": "ujson",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "ujson",
+        "description": "ujson",
+        "detail": "ujson",
+        "documentation": {}
+    },
+    {
+        "label": "in_usa",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def in_usa(state): return state in us_states\n# ES client \npersonIdx = \"person_v4\"\nupd_index = \"5x5_universal_data\"\nes = OpenSearch(\n    hosts=[{\n        \"host\": \"search-leadpool-4ilowbdmqbukskwzzduu37sqyq.us-west-2.es.amazonaws.com\",\n        \"port\": 443\n    }],\n    use_ssl=True,",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "is_parquet_file",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def is_parquet_file(key): return key.endswith(\".parquet\")\ndef match_emails_with_lf(emails):\n     # Build the query based on the number of emails\n    if len(emails) == 1:\n        query = {\n            \"bool\": {\n                \"should\": [\n                    {\"term\": {\"emails.personal.deliverable\": emails[0]}}\n                ]\n            }",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "match_emails_with_lf",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def match_emails_with_lf(emails):\n     # Build the query based on the number of emails\n    if len(emails) == 1:\n        query = {\n            \"bool\": {\n                \"should\": [\n                    {\"term\": {\"emails.personal.deliverable\": emails[0]}}\n                ]\n            }\n        }",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "query_upid_in_es",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def query_upid_in_es(upid):\n  try:\n    response = es.get(index=upd_index, id=upid)\n    return response['_source']\n  except NotFoundError:\n    return None\ndef parquet_to_json(file_content):\n    table = pq.read_table(io.BytesIO(file_content)).to_pandas()\n    return table.to_json(orient=\"records\")\ndef process_file(key):",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "parquet_to_json",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def parquet_to_json(file_content):\n    table = pq.read_table(io.BytesIO(file_content)).to_pandas()\n    return table.to_json(orient=\"records\")\ndef process_file(key):\n  s3_object = s3_client.get_object(Bucket=bucket, Key=key)\n  file_content = s3_object['Body'].read()  # parquet content\n  # parquet to json\n  parsed = parquet_to_json(file_content)\n  parsed = json.loads(parsed)  # list of json\n  # Process each record in the parsed data",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "process_file",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def process_file(key):\n  s3_object = s3_client.get_object(Bucket=bucket, Key=key)\n  file_content = s3_object['Body'].read()  # parquet content\n  # parquet to json\n  parsed = parquet_to_json(file_content)\n  parsed = json.loads(parsed)  # list of json\n  # Process each record in the parsed data\n  for d in parsed:\n    if d.get(\"PARTNER_UID\") == \"\":  # leadfuze is the partner\n      stats[\"num_resolved\"] += 1",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def main(bucket, prefix):\n    paginator = s3_client.get_paginator('list_objects_v2')\n    pages = paginator.paginate(Bucket=bucket, Prefix=prefix)\n    with ThreadPoolExecutor(max_workers=40) as executor:\n      for page in pages:\n        keys = [record[\"Key\"] for record in page.get(\"Contents\", []) if is_parquet_file(record[\"Key\"])]\n      #   for k in keys:\n      #     process_file(k)\n        executor.map(process_file, keys)\nif __name__ == \"__main__\":",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "s3_client",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "s3_client = boto3.client('s3')\ndownloader = boto3.resource('s3')\nregion = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "downloader",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "downloader = boto3.resource('s3')\nregion = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "region",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "region = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "service",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "service = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\nstats = {",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "credentials",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "credentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\nstats = {\n  \"num_resolved\": 0,",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "awsauth",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\nstats = {\n  \"num_resolved\": 0,\n  \"num_5x5_not_matched\": 0,",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "stats",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "stats = {\n  \"num_resolved\": 0,\n  \"num_5x5_not_matched\": 0,\n  \"num_upid_found\": 0,\n  \"num_upid_not_found\": 0,\n  # LF and 5x5 match count\n  \"num_5x5_us_based_matched\": 0,\n  \"num_5x5_matched\": 0,\n  \"num_lf_matched\": 0,\n  \"num_lf_us_based_matched\": 0,",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "personIdx",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "personIdx = \"person_v4\"\nupd_index = \"5x5_universal_data\"\nes = OpenSearch(\n    hosts=[{\n        \"host\": \"search-leadpool-4ilowbdmqbukskwzzduu37sqyq.us-west-2.es.amazonaws.com\",\n        \"port\": 443\n    }],\n    use_ssl=True,\n    verify_certs=True,\n    timeout=150,",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "upd_index",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "upd_index = \"5x5_universal_data\"\nes = OpenSearch(\n    hosts=[{\n        \"host\": \"search-leadpool-4ilowbdmqbukskwzzduu37sqyq.us-west-2.es.amazonaws.com\",\n        \"port\": 443\n    }],\n    use_ssl=True,\n    verify_certs=True,\n    timeout=150,\n    retry_on_timeout=True",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "es",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "es = OpenSearch(\n    hosts=[{\n        \"host\": \"search-leadpool-4ilowbdmqbukskwzzduu37sqyq.us-west-2.es.amazonaws.com\",\n        \"port\": 443\n    }],\n    use_ssl=True,\n    verify_certs=True,\n    timeout=150,\n    retry_on_timeout=True\n)",
+        "detail": "stats",
+        "documentation": {}
+    }
+]
