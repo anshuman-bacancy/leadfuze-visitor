@@ -1,5 +1,11 @@
-## Install the dependencies: 
+## How to update the code  
+manually copy the file from local to EC2 instance 
+* update the code in local
+```bash
+scp -i anshuman-lf-key.pem -r <file-path> ubuntu@ec2-35-91-48-36.us-west-2.compute.amazonaws.com:~/
+```
 
+## Install the dependencies: 
 ```bash
 pip3 install -r requirements.txt
 ```
@@ -13,4 +19,5 @@ pip3 install -r requirements.txt
 ```bash
 streamlit run ./app.py OR streamlit run app.py
 ````
-[streamlit app](https://leadfuze-visitor-5hz4whkjsajdmvqbxekffw.streamlit.app/)
+[streamlit app](ec2-35-91-48-36.us-west-2.compute.amazonaws.com:3501)
+
