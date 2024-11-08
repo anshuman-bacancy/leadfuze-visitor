@@ -1,3 +1,4 @@
 opensearch-py
 boto3
 streamlit
+pymongo
