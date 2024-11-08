@@ -1,16 +1,18 @@
 #!/usr/bin/python3
+import re
+import sys
 import io
 import json
 import boto3
-from elastic_transport import RequestsHttpNode
 from opensearchpy import OpenSearch, NotFoundError
-import pandas as pd
 import urllib
 import time
 import pyarrow.parquet as pq
+from pymongo import MongoClient
+from bson import ObjectId
 from concurrent.futures import ThreadPoolExecutor
 from requests_aws4auth import AWS4Auth
-import ujson as json  # You can use orjson as an alternative
+import ujson as json
 
 # S3 objects
 s3_client = boto3.client('s3')
@@ -21,6 +23,15 @@ service = 'es'
 credentials = boto3.Session().get_credentials()
 awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
 
+# documentDB
+mongo_client = MongoClient("mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true")
+mongo_db = mongo_client["prod"]
+mongo_coll = mongo_db["visitor_stats"]
+
+# dynamoDB
+dynamodb = boto3.resource('dynamodb')
+stats_table = dynamodb.Table("visitor_stats_2")
+
 # Customer-bucket mapping
 us_states  = [
   "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY",
@@ -28,20 +39,20 @@ us_states  = [
   "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
 ]
 
-stats = {
-  "num_resolved": 0,
-  "num_5x5_not_matched": 0,
-  "num_upid_found": 0,
-  "num_upid_not_found": 0,
 
-  # LF and 5x5 match count
-  "num_5x5_us_based_matched": 0,
-  "num_5x5_matched": 0,
-  "num_lf_matched": 0,
-  "num_lf_us_based_matched": 0,
-  "num_lf_and_5x5_matched": 0
-}
-
+def extract_date(x):
+  pattern = r"y=(\d+)/m=(\d+)/d=(\d+)/h=(\d+)"
+  match = re.search(pattern, x)
+  if match:
+    y, m, d, h = match.groups()
+    data = {
+       "y": int(y),
+       "m": int(m),
+       "d": int(d)
+    }
+    return data
+  else: 
+    return None
 
 def in_usa(state): return state in us_states
 
@@ -120,9 +131,29 @@ def parquet_to_json(file_content):
   return table.to_json(orient="records")
 
 def process_file(key):
+  stats = {
+    "day": 0,
+    "year": 0,
+    "month": 0,
+    "num_resolved": 0,
+    "num_5x5_not_matched": 0,
+    "num_upid_found": 0,
+    "num_upid_not_found": 0,
+
+    # LF and 5x5 match count
+    "num_5x5_us_based_matched": 0,
+    "num_5x5_matched": 0,
+    "num_lf_matched": 0,
+    "num_lf_us_based_matched": 0,
+    "num_lf_and_5x5_matched": 0
+  }
   is_lf_visitor = False
   s3_object = s3_client.get_object(Bucket=bucket, Key=key)
   file_content = s3_object['Body'].read()  # parquet content
+  date = extract_date(key)
+  stats["year"] = date.get("y")
+  stats["month"] = date.get("m")
+  stats["day"] = date.get("d")
 
   # parquet to json
   parsed = parquet_to_json(file_content)
@@ -140,28 +171,57 @@ def process_file(key):
         data = query_upid_in_es(upid)
         if data:
           stats["num_5x5_matched"] += 1
-          if in_usa(data["personal_state"]): 
-            stats["num_5x5_us_based_matched"] += 1
+          if in_usa(data["personal_state"]): stats["num_5x5_us_based_matched"] += 1
           emails = []
           if data.get('personal_emails'): emails.append(data['personal_emails'])
           if data.get('additional_personal_emails'): emails.extend(data['additional_personal_emails'].split(","))
           total_hits, us_based_hits, _ = match_emails_with_lf(emails)
           stats["num_lf_matched"]  += total_hits
           stats["num_lf_us_based_matched"] += us_based_hits
-        else: 
-           stats["num_5x5_not_matched"] +=1
-      else: 
-         stats["num_upid_not_found"] += 1
+        else: stats["num_5x5_not_matched"] +=1
+      else: stats["num_upid_not_found"] += 1
+  update_stats(stats) # push to mongo
+
+def update_stats(stats):
+  # find
+  q = {"year": stats.get("year"), "month": stats.get("month"), "day": stats.get("day")}
+  projection = {"year": 0, "month": 0, "day": 0, "_id": 0}
+  exist_rec = mongo_coll.find_one(q, projection)
+
+  # update
+  if exist_rec is not None:
+    for key, _ in exist_rec.items():
+      if key in stats:
+        exist_rec[key] += int(stats[key])
+    try: 
+      result = mongo_coll.update_one(q, {"$set": exist_rec})
+      if result.matched_count > 0: print("Updated in 'visitor_stats'")
+    except Exception as e:
+      print("Exception while updating", e)
+  else: 
+    try:
+      result = mongo_coll.insert_one(stats)
+      if result.inserted_id is not None: 
+        print("Inserted in 'visitor_stats'")
+        stats.pop("_id")
+    except Exception as e:
+      print("Exception while inserting", e)
 
 
 def main(bucket, prefix):
     paginator = s3_client.get_paginator('list_objects_v2')
     pages = paginator.paginate(Bucket=bucket, Prefix=prefix)
-    with ThreadPoolExecutor(max_workers=40) as executor:
+    with ThreadPoolExecutor(max_workers=10) as executor:
       for page in pages:
+        # print("page: ", page)
+        # print()
+        # sys.exit()
         keys = [record["Key"] for record in page.get("Contents", []) if is_parquet_file(record["Key"])]
-      #   for k in keys:
-      #     process_file(k)
+        # keys = []
+        # for record in page.get("Contents", []): 
+        #   if is_parquet_file(record["Key"]):
+        #     keys.append(record["Key"])
+      # for k in keys: process_file(k)
         executor.map(process_file, keys)
 
 if __name__ == "__main__":
@@ -174,5 +234,5 @@ if __name__ == "__main__":
   minutes, seconds = divmod(diff, 60)
 
   print("stats")
-  print(json.dumps(stats, indent=2))
+  # print(json.dumps(stats, indent=2))
   print("diff: {} minutes and {:.3f} seconds".format(int(minutes), seconds))

@@ -13,3 +13,4 @@ pip3 install -r requirements.txt
 ```bash
 streamlit run ./app.py OR streamlit run app.py
 ````
+[streamlit app](https://leadfuze-visitor-5hz4whkjsajdmvqbxekffw.streamlit.app/)
