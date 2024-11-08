@@ -6,8 +6,8 @@ import pandas as pd
 import boto3
 from datetime import date
 from pymongo import MongoClient
-from boto3.dynamodb.conditions import Key
 
+PASSWORD = "LEADFUZE"
 
 # documentDB
 mongo_client = MongoClient("mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true")
@@ -31,14 +31,6 @@ st.set_page_config(layout="wide")
 
 access_key = os.environ["AWS_ACCESS_KEY_ID"]
 access_secret = os.environ["AWS_SECRET_ACCESS_KEY"]
-
-dynamodb = boto3.resource(
-	'dynamodb',
-	aws_access_key_id=access_key,
-	aws_secret_access_key=access_secret,
-	region_name="us-west-2"
-)
-table = dynamodb.Table('visitor_stats')
 
 def fetch_data(fd, td):
 	query = {
@@ -69,54 +61,46 @@ def fetch_data(fd, td):
 	docs = mongo_coll.find(query, proj)
 	return docs
 
+def start_app():
+	st.title("Leadfuze visitor stats")
+	col1, col2, _ = st.columns([5,5, 1]) 
+	with col1:
+		from_date = st.date_input("From", date.today(), max_value=date.today())
+		fd = {
+			"year": from_date.year,
+			"month": from_date.month,
+			"day": from_date.day
+		}
+
+	with col2:
+		to_date = st.date_input("To", date.today(), max_value=date.today())
+		td = {
+			"year": to_date.year,
+			"month": to_date.month,
+			"day": to_date.day
+		}
+
+	if st.button("Get Visitor Stats", "btn"):
+		data = fetch_data(fd, td)
+		res = defaultdict(int)
+		for d in data:
+			for key, value in d.items():
+				if key not in mapping:
+					print(key)
+				res[mapping.get(key)] += value
+		df = pd.DataFrame([res])
+		st.write(df)
+
 # Streamlit App
-st.title("Leadfuze visitor stats")
-col1, col2, _ = st.columns([5,5, 1]) 
-with col1:
-	from_date = st.date_input("From", date.today(), max_value=date.today())
-	fd = {
-		"year": from_date.year,
-		"month": from_date.month,
-		"day": from_date.day
-	}
+if 'auth' not in st.session_state:
+	st.session_state.auth = False
 
-with col2:
-	to_date = st.date_input("To", date.today(), max_value=date.today())
-	td = {
-		"year": to_date.year,
-		"month": to_date.month,
-		"day": to_date.day
-	}
+password = st.text_input("Enter password", type="password")
+if st.button("Validate Password", "passBtn"):
+	if password == PASSWORD:
+		st.session_state.auth = True
+	else: 
+		st.warning("Incorrect password")
 
-if st.button("Get Visitor Stats", "btn"):
-	data = fetch_data(fd, td)
-	# df = pd.DataFrame(data)
-	# st.write(df)
-	res = defaultdict(int)
-	for d in data:
-		for key, value in d.items():
-			if key not in mapping:
-				print(key)
-			res[mapping.get(key)] += value
-			# st.write(f"**{mapping.get(key)}**: {value}")
-
-	df = pd.DataFrame([res])
-	st.write(df)
-	# if data:
-	# 	for key, value in data[0].items():
-	# 		if "id" not in key:
-	# 			st.write(f"**{mapping.get(key)}**: {value}")
-	# else:
-	# 	st.write("No visitor data found")
-
-# with col3:
-
-# # Fetch data
-# data = fetch_data(fd, td)
-
-# if data:
-# 	for key, value in data[0].items():
-# 		if "id" not in key:
-# 			st.write(f"**{mapping.get(key)}**: {value}")
-# else:
-# 	st.write("No visitor data found")
+if st.session_state.auth:
+	start_app()
