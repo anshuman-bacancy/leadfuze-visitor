@@ -4,6 +4,12 @@ manually copy the file from local to EC2 instance
 ```bash
 scp -i anshuman-lf-key.pem -r <file-path> ubuntu@ec2-35-91-48-36.us-west-2.compute.amazonaws.com:~/
 ```
+* Running the streamlit app in EC2 instance
+```bash
+cd stats
+nohup streamlit run app.py --server.port 8501 &
+
+```
 
 ## Install the dependencies: 
 ```bash
