@@ -178,6 +178,7 @@ def process_file(key):
           total_hits, us_based_hits, _ = match_emails_with_lf(emails)
           stats["num_lf_matched"]  += total_hits
           stats["num_lf_us_based_matched"] += us_based_hits
+          if total_hits > 0: stats["num_lf_and_5x5_matched"] += 1
         else: stats["num_5x5_not_matched"] +=1
       else: stats["num_upid_not_found"] += 1
   update_stats(stats) # push to mongo

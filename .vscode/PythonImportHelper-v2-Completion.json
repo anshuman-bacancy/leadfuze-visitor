@@ -1,5 +1,91 @@
 [
     {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "defaultdict",
+        "importPath": "collections",
+        "description": "collections",
+        "isExtraImport": true,
+        "detail": "collections",
+        "documentation": {}
+    },
+    {
+        "label": "streamlit",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "streamlit",
+        "description": "streamlit",
+        "detail": "streamlit",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "boto3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "boto3",
+        "description": "boto3",
+        "detail": "boto3",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "MongoClient",
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "isExtraImport": true,
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "MongoClient",
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "isExtraImport": true,
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
         "label": "io",
         "kind": 6,
         "isExtraImport": true,
@@ -15,23 +101,6 @@
         "importPath": "json",
         "description": "json",
         "detail": "json",
-        "documentation": {}
-    },
-    {
-        "label": "boto3",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "boto3",
-        "description": "boto3",
-        "detail": "boto3",
-        "documentation": {}
-    },
-    {
-        "label": "RequestsHttpNode",
-        "importPath": "elastic_transport",
-        "description": "elastic_transport",
-        "isExtraImport": true,
-        "detail": "elastic_transport",
         "documentation": {}
     },
     {
@@ -51,21 +120,12 @@
         "documentation": {}
     },
     {
-        "label": "pandas",
+        "label": "urllib",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "pandas",
-        "description": "pandas",
-        "detail": "pandas",
-        "documentation": {}
-    },
-    {
-        "label": "sys",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "sys",
-        "description": "sys",
-        "detail": "sys",
+        "importPath": "urllib",
+        "description": "urllib",
+        "detail": "urllib",
         "documentation": {}
     },
     {
@@ -84,6 +144,14 @@
         "importPath": "pyarrow.parquet",
         "description": "pyarrow.parquet",
         "detail": "pyarrow.parquet",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
         "documentation": {}
     },
     {
@@ -109,6 +177,222 @@
         "importPath": "ujson",
         "description": "ujson",
         "detail": "ujson",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_data",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def fetch_data(fd, td):\n\tquery = {\n\t\t\"$or\": []\n\t}\n\tcd = {\"year\": date.today().year, \"month\": date.today().month, \"day\": date.today().day}\n\tif fd is not None and td is not None:\n\t\tquery[\"$or\"].append(fd)\n\t\tquery[\"$or\"].append(td)\n\t\tquery[\"$or\"].append({\"year\": {\"$gt\": fd.get(\"year\"), \"$lt\": td.get(\"year\")}})\n\t\tquery[\"$or\"].append({\"year\": fd.get(\"year\"), \"month\": fd.get(\"month\")})",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "start_app",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def start_app():\n\tst.title(\"Leadfuze visitor stats\")\n\tcol1, col2, _ = st.columns([5,5, 1]) \n\twith col1:\n\t\tfrom_date = st.date_input(\"From\", date.today(), max_value=date.today())\n\t\tfd = {\n\t\t\t\"year\": from_date.year,\n\t\t\t\"month\": from_date.month,\n\t\t\t\"day\": from_date.day\n\t\t}",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "PASSWORD",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "PASSWORD = \"LEADFUZE\"\n# documentDB\nmongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\nmapping = {\n\t\"num_resolved\": \"Number of resolved\",\n\t\"num_lf_matched\": \"Matched with Leadfuze\",\n\t\"num_5x5_matched\": \"Matched with 5x5\",\n\t\"num_5x5_not_matched\": \"Not matched with 5x5\", ",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "mongo_client",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "mongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\nmapping = {\n\t\"num_resolved\": \"Number of resolved\",\n\t\"num_lf_matched\": \"Matched with Leadfuze\",\n\t\"num_5x5_matched\": \"Matched with 5x5\",\n\t\"num_5x5_not_matched\": \"Not matched with 5x5\", \n\t\"num_lf_us_based_matched\": \"Matched with Leadfuze (US only)\",\n\t\"num_5x5_us_based_matched\": \"Matched with 5x5 (US only)\",",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "mongo_db",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "mongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\nmapping = {\n\t\"num_resolved\": \"Number of resolved\",\n\t\"num_lf_matched\": \"Matched with Leadfuze\",\n\t\"num_5x5_matched\": \"Matched with 5x5\",\n\t\"num_5x5_not_matched\": \"Not matched with 5x5\", \n\t\"num_lf_us_based_matched\": \"Matched with Leadfuze (US only)\",\n\t\"num_5x5_us_based_matched\": \"Matched with 5x5 (US only)\",\n\t\"num_lf_5x5_matched\": \"Matched with Leadfuze and 5x5\",",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "mongo_coll",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "mongo_coll = mongo_db[\"visitor_stats\"]\nmapping = {\n\t\"num_resolved\": \"Number of resolved\",\n\t\"num_lf_matched\": \"Matched with Leadfuze\",\n\t\"num_5x5_matched\": \"Matched with 5x5\",\n\t\"num_5x5_not_matched\": \"Not matched with 5x5\", \n\t\"num_lf_us_based_matched\": \"Matched with Leadfuze (US only)\",\n\t\"num_5x5_us_based_matched\": \"Matched with 5x5 (US only)\",\n\t\"num_lf_5x5_matched\": \"Matched with Leadfuze and 5x5\",\n\t\"num_upid_found\": \"Number of UPID found\",",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "mapping",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "mapping = {\n\t\"num_resolved\": \"Number of resolved\",\n\t\"num_lf_matched\": \"Matched with Leadfuze\",\n\t\"num_5x5_matched\": \"Matched with 5x5\",\n\t\"num_5x5_not_matched\": \"Not matched with 5x5\", \n\t\"num_lf_us_based_matched\": \"Matched with Leadfuze (US only)\",\n\t\"num_5x5_us_based_matched\": \"Matched with 5x5 (US only)\",\n\t\"num_lf_5x5_matched\": \"Matched with Leadfuze and 5x5\",\n\t\"num_upid_found\": \"Number of UPID found\",\n\t\"num_upid_not_found\": \"Number of UPID not found\",",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "access_key",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "access_key = os.environ[\"AWS_ACCESS_KEY_ID\"]\naccess_secret = os.environ[\"AWS_SECRET_ACCESS_KEY\"]\ndef fetch_data(fd, td):\n\tquery = {\n\t\t\"$or\": []\n\t}\n\tcd = {\"year\": date.today().year, \"month\": date.today().month, \"day\": date.today().day}\n\tif fd is not None and td is not None:\n\t\tquery[\"$or\"].append(fd)\n\t\tquery[\"$or\"].append(td)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "access_secret",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "access_secret = os.environ[\"AWS_SECRET_ACCESS_KEY\"]\ndef fetch_data(fd, td):\n\tquery = {\n\t\t\"$or\": []\n\t}\n\tcd = {\"year\": date.today().year, \"month\": date.today().month, \"day\": date.today().day}\n\tif fd is not None and td is not None:\n\t\tquery[\"$or\"].append(fd)\n\t\tquery[\"$or\"].append(td)\n\t\tquery[\"$or\"].append({\"year\": {\"$gt\": fd.get(\"year\"), \"$lt\": td.get(\"year\")}})",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\tquery",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\tquery = {\n\t\t\"$or\": []\n\t}\n\tcd = {\"year\": date.today().year, \"month\": date.today().month, \"day\": date.today().day}\n\tif fd is not None and td is not None:\n\t\tquery[\"$or\"].append(fd)\n\t\tquery[\"$or\"].append(td)\n\t\tquery[\"$or\"].append({\"year\": {\"$gt\": fd.get(\"year\"), \"$lt\": td.get(\"year\")}})\n\t\tquery[\"$or\"].append({\"year\": fd.get(\"year\"), \"month\": fd.get(\"month\")})\n\t\tquery[\"$or\"].append({\"year\": td.get(\"year\"), \"month\": td.get(\"month\")})",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\tcd",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\tcd = {\"year\": date.today().year, \"month\": date.today().month, \"day\": date.today().day}\n\tif fd is not None and td is not None:\n\t\tquery[\"$or\"].append(fd)\n\t\tquery[\"$or\"].append(td)\n\t\tquery[\"$or\"].append({\"year\": {\"$gt\": fd.get(\"year\"), \"$lt\": td.get(\"year\")}})\n\t\tquery[\"$or\"].append({\"year\": fd.get(\"year\"), \"month\": fd.get(\"month\")})\n\t\tquery[\"$or\"].append({\"year\": td.get(\"year\"), \"month\": td.get(\"month\")})\n\telif fd is not None and td is None:  \n\t\tquery[\"$or\"].append(fd)\n\t\tquery[\"$or\"].append(cd)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\tproj",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\tproj = {\"_id\": 0, \"day\": 0, \"year\": 0, \"month\": 0}\n\tdocs = mongo_coll.find(query, proj)\n\treturn docs\ndef start_app():\n\tst.title(\"Leadfuze visitor stats\")\n\tcol1, col2, _ = st.columns([5,5, 1]) \n\twith col1:\n\t\tfrom_date = st.date_input(\"From\", date.today(), max_value=date.today())\n\t\tfd = {\n\t\t\t\"year\": from_date.year,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\tdocs",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\tdocs = mongo_coll.find(query, proj)\n\treturn docs\ndef start_app():\n\tst.title(\"Leadfuze visitor stats\")\n\tcol1, col2, _ = st.columns([5,5, 1]) \n\twith col1:\n\t\tfrom_date = st.date_input(\"From\", date.today(), max_value=date.today())\n\t\tfd = {\n\t\t\t\"year\": from_date.year,\n\t\t\t\"month\": from_date.month,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfrom_date",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\tfrom_date = st.date_input(\"From\", date.today(), max_value=date.today())\n\t\tfd = {\n\t\t\t\"year\": from_date.year,\n\t\t\t\"month\": from_date.month,\n\t\t\t\"day\": from_date.day\n\t\t}\n\twith col2:\n\t\tto_date = st.date_input(\"To\", date.today(), max_value=date.today())\n\t\ttd = {\n\t\t\t\"year\": to_date.year,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfd",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\tfd = {\n\t\t\t\"year\": from_date.year,\n\t\t\t\"month\": from_date.month,\n\t\t\t\"day\": from_date.day\n\t\t}\n\twith col2:\n\t\tto_date = st.date_input(\"To\", date.today(), max_value=date.today())\n\t\ttd = {\n\t\t\t\"year\": to_date.year,\n\t\t\t\"month\": to_date.month,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tto_date",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\tto_date = st.date_input(\"To\", date.today(), max_value=date.today())\n\t\ttd = {\n\t\t\t\"year\": to_date.year,\n\t\t\t\"month\": to_date.month,\n\t\t\t\"day\": to_date.day\n\t\t}\n\tif st.button(\"Get Visitor Stats\", \"btn\"):\n\t\tdata = fetch_data(fd, td)\n\t\tres = defaultdict(int)\n\t\tfor d in data:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttd",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\ttd = {\n\t\t\t\"year\": to_date.year,\n\t\t\t\"month\": to_date.month,\n\t\t\t\"day\": to_date.day\n\t\t}\n\tif st.button(\"Get Visitor Stats\", \"btn\"):\n\t\tdata = fetch_data(fd, td)\n\t\tres = defaultdict(int)\n\t\tfor d in data:\n\t\t\tfor key, value in d.items():",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tdata",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\tdata = fetch_data(fd, td)\n\t\tres = defaultdict(int)\n\t\tfor d in data:\n\t\t\tfor key, value in d.items():\n\t\t\t\tif key not in mapping:\n\t\t\t\t\tprint(key)\n\t\t\t\tres[mapping.get(key)] += value\n\t\tdf = pd.DataFrame([res])\n\t\tst.write(df)\n# Streamlit App",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tres",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\tres = defaultdict(int)\n\t\tfor d in data:\n\t\t\tfor key, value in d.items():\n\t\t\t\tif key not in mapping:\n\t\t\t\t\tprint(key)\n\t\t\t\tres[mapping.get(key)] += value\n\t\tdf = pd.DataFrame([res])\n\t\tst.write(df)\n# Streamlit App\nif 'auth' not in st.session_state:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tdf",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\tdf = pd.DataFrame([res])\n\t\tst.write(df)\n# Streamlit App\nif 'auth' not in st.session_state:\n\tst.session_state.auth = False\npassword = st.text_input(\"Enter password\", type=\"password\")\nif st.button(\"Validate Password\", \"passBtn\"):\n\tif password == PASSWORD:\n\t\tst.session_state.auth = True\n\telse: ",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\tst.session_state.auth",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\tst.session_state.auth = False\npassword = st.text_input(\"Enter password\", type=\"password\")\nif st.button(\"Validate Password\", \"passBtn\"):\n\tif password == PASSWORD:\n\t\tst.session_state.auth = True\n\telse: \n\t\tst.warning(\"Incorrect password\")\nif st.session_state.auth:\n\tstart_app()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "password",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "password = st.text_input(\"Enter password\", type=\"password\")\nif st.button(\"Validate Password\", \"passBtn\"):\n\tif password == PASSWORD:\n\t\tst.session_state.auth = True\n\telse: \n\t\tst.warning(\"Incorrect password\")\nif st.session_state.auth:\n\tstart_app()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tst.session_state.auth",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "\t\tst.session_state.auth = True\n\telse: \n\t\tst.warning(\"Incorrect password\")\nif st.session_state.auth:\n\tstart_app()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "extract_date",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def extract_date(x):\n  pattern = r\"y=(\\d+)/m=(\\d+)/d=(\\d+)/h=(\\d+)\"\n  match = re.search(pattern, x)\n  if match:\n    y, m, d, h = match.groups()\n    data = {\n       \"y\": int(y),\n       \"m\": int(m),\n       \"d\": int(d)\n    }",
+        "detail": "stats",
         "documentation": {}
     },
     {
@@ -139,11 +423,20 @@
         "documentation": {}
     },
     {
+        "label": "is_json_string",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def is_json_string(s):\n  try:\n    json.loads(s)\n    return True\n  except (ValueError, TypeError):\n    return False\ndef query_upid_in_es(upid):\n  try:\n    response = es.get(index=upd_index, id=upid)\n    return response['_source']",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
         "label": "query_upid_in_es",
         "kind": 2,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "def query_upid_in_es(upid):\n  try:\n    response = es.get(index=upd_index, id=upid)\n    return response['_source']\n  except NotFoundError:\n    return None\ndef parquet_to_json(file_content):\n    table = pq.read_table(io.BytesIO(file_content)).to_pandas()\n    return table.to_json(orient=\"records\")\ndef process_file(key):",
+        "peekOfCode": "def query_upid_in_es(upid):\n  try:\n    response = es.get(index=upd_index, id=upid)\n    return response['_source']\n  except NotFoundError:\n    return None\ndef parquet_to_json(file_content):\n  table = pq.read_table(io.BytesIO(file_content)).to_pandas()\n  return table.to_json(orient=\"records\")\ndef process_file(key):",
         "detail": "stats",
         "documentation": {}
     },
@@ -152,7 +445,7 @@
         "kind": 2,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "def parquet_to_json(file_content):\n    table = pq.read_table(io.BytesIO(file_content)).to_pandas()\n    return table.to_json(orient=\"records\")\ndef process_file(key):\n  s3_object = s3_client.get_object(Bucket=bucket, Key=key)\n  file_content = s3_object['Body'].read()  # parquet content\n  # parquet to json\n  parsed = parquet_to_json(file_content)\n  parsed = json.loads(parsed)  # list of json\n  # Process each record in the parsed data",
+        "peekOfCode": "def parquet_to_json(file_content):\n  table = pq.read_table(io.BytesIO(file_content)).to_pandas()\n  return table.to_json(orient=\"records\")\ndef process_file(key):\n  stats = {\n    \"day\": 0,\n    \"year\": 0,\n    \"month\": 0,\n    \"num_resolved\": 0,\n    \"num_5x5_not_matched\": 0,",
         "detail": "stats",
         "documentation": {}
     },
@@ -161,7 +454,16 @@
         "kind": 2,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "def process_file(key):\n  s3_object = s3_client.get_object(Bucket=bucket, Key=key)\n  file_content = s3_object['Body'].read()  # parquet content\n  # parquet to json\n  parsed = parquet_to_json(file_content)\n  parsed = json.loads(parsed)  # list of json\n  # Process each record in the parsed data\n  for d in parsed:\n    if d.get(\"PARTNER_UID\") == \"\":  # leadfuze is the partner\n      stats[\"num_resolved\"] += 1",
+        "peekOfCode": "def process_file(key):\n  stats = {\n    \"day\": 0,\n    \"year\": 0,\n    \"month\": 0,\n    \"num_resolved\": 0,\n    \"num_5x5_not_matched\": 0,\n    \"num_upid_found\": 0,\n    \"num_upid_not_found\": 0,\n    # LF and 5x5 match count",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "update_stats",
+        "kind": 2,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "def update_stats(stats):\n  # find\n  q = {\"year\": stats.get(\"year\"), \"month\": stats.get(\"month\"), \"day\": stats.get(\"day\")}\n  projection = {\"year\": 0, \"month\": 0, \"day\": 0, \"_id\": 0}\n  exist_rec = mongo_coll.find_one(q, projection)\n  # update\n  if exist_rec is not None:\n    for key, _ in exist_rec.items():\n      if key in stats:\n        exist_rec[key] += int(stats[key])",
         "detail": "stats",
         "documentation": {}
     },
@@ -170,7 +472,7 @@
         "kind": 2,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "def main(bucket, prefix):\n    paginator = s3_client.get_paginator('list_objects_v2')\n    pages = paginator.paginate(Bucket=bucket, Prefix=prefix)\n    with ThreadPoolExecutor(max_workers=40) as executor:\n      for page in pages:\n        keys = [record[\"Key\"] for record in page.get(\"Contents\", []) if is_parquet_file(record[\"Key\"])]\n      #   for k in keys:\n      #     process_file(k)\n        executor.map(process_file, keys)\nif __name__ == \"__main__\":",
+        "peekOfCode": "def main(bucket, prefix):\n    paginator = s3_client.get_paginator('list_objects_v2')\n    pages = paginator.paginate(Bucket=bucket, Prefix=prefix)\n    with ThreadPoolExecutor(max_workers=10) as executor:\n      for page in pages:\n        # print(\"page: \", page)\n        # print()\n        # sys.exit()\n        keys = [record[\"Key\"] for record in page.get(\"Contents\", []) if is_parquet_file(record[\"Key\"])]\n        # keys = []",
         "detail": "stats",
         "documentation": {}
     },
@@ -179,7 +481,7 @@
         "kind": 5,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "s3_client = boto3.client('s3')\ndownloader = boto3.resource('s3')\nregion = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",",
+        "peekOfCode": "s3_client = boto3.client('s3')\ndownloader = boto3.resource('s3')\nregion = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# documentDB\nmongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]",
         "detail": "stats",
         "documentation": {}
     },
@@ -188,7 +490,7 @@
         "kind": 5,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "downloader = boto3.resource('s3')\nregion = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",",
+        "peekOfCode": "downloader = boto3.resource('s3')\nregion = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# documentDB\nmongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB",
         "detail": "stats",
         "documentation": {}
     },
@@ -197,7 +499,7 @@
         "kind": 5,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "region = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]",
+        "peekOfCode": "region = 'us-west-2'  # Replace with your region\nservice = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# documentDB\nmongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB\ndynamodb = boto3.resource('dynamodb')",
         "detail": "stats",
         "documentation": {}
     },
@@ -206,7 +508,7 @@
         "kind": 5,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "service = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\nstats = {",
+        "peekOfCode": "service = 'es'\ncredentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# documentDB\nmongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB\ndynamodb = boto3.resource('dynamodb')\nstats_table = dynamodb.Table(\"visitor_stats_2\")",
         "detail": "stats",
         "documentation": {}
     },
@@ -215,7 +517,7 @@
         "kind": 5,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "credentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\nstats = {\n  \"num_resolved\": 0,",
+        "peekOfCode": "credentials = boto3.Session().get_credentials()\nawsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# documentDB\nmongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB\ndynamodb = boto3.resource('dynamodb')\nstats_table = dynamodb.Table(\"visitor_stats_2\")\n# Customer-bucket mapping",
         "detail": "stats",
         "documentation": {}
     },
@@ -224,16 +526,52 @@
         "kind": 5,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\nstats = {\n  \"num_resolved\": 0,\n  \"num_5x5_not_matched\": 0,",
+        "peekOfCode": "awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)\n# documentDB\nmongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB\ndynamodb = boto3.resource('dynamodb')\nstats_table = dynamodb.Table(\"visitor_stats_2\")\n# Customer-bucket mapping\nus_states  = [",
         "detail": "stats",
         "documentation": {}
     },
     {
-        "label": "stats",
+        "label": "mongo_client",
         "kind": 5,
         "importPath": "stats",
         "description": "stats",
-        "peekOfCode": "stats = {\n  \"num_resolved\": 0,\n  \"num_5x5_not_matched\": 0,\n  \"num_upid_found\": 0,\n  \"num_upid_not_found\": 0,\n  # LF and 5x5 match count\n  \"num_5x5_us_based_matched\": 0,\n  \"num_5x5_matched\": 0,\n  \"num_lf_matched\": 0,\n  \"num_lf_us_based_matched\": 0,",
+        "peekOfCode": "mongo_client = MongoClient(\"mongodb://leadfuze:l2e3a9d8F7u6z5e@localhost:27017/?authMechanism=SCRAM-SHA-1&retryWrites=true&w=majority&tls=false&directConnection=true\")\nmongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB\ndynamodb = boto3.resource('dynamodb')\nstats_table = dynamodb.Table(\"visitor_stats_2\")\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "mongo_db",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "mongo_db = mongo_client[\"prod\"]\nmongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB\ndynamodb = boto3.resource('dynamodb')\nstats_table = dynamodb.Table(\"visitor_stats_2\")\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "mongo_coll",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "mongo_coll = mongo_db[\"visitor_stats\"]\n# dynamoDB\ndynamodb = boto3.resource('dynamodb')\nstats_table = dynamodb.Table(\"visitor_stats_2\")\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "dynamodb",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "dynamodb = boto3.resource('dynamodb')\nstats_table = dynamodb.Table(\"visitor_stats_2\")\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\ndef extract_date(x):\n  pattern = r\"y=(\\d+)/m=(\\d+)/d=(\\d+)/h=(\\d+)\"",
+        "detail": "stats",
+        "documentation": {}
+    },
+    {
+        "label": "stats_table",
+        "kind": 5,
+        "importPath": "stats",
+        "description": "stats",
+        "peekOfCode": "stats_table = dynamodb.Table(\"visitor_stats_2\")\n# Customer-bucket mapping\nus_states  = [\n  \"AL\", \"AK\", \"AZ\", \"AR\", \"CA\", \"CO\", \"CT\", \"DE\", \"FL\", \"GA\", \"HI\", \"ID\", \"IL\", \"IN\", \"IA\", \"KS\", \"KY\",\n  \"LA\", \"ME\", \"MD\", \"MA\", \"MI\", \"MN\", \"MS\", \"MO\", \"MT\", \"NE\", \"NV\", \"NH\", \"NJ\", \"NM\", \"NY\", \"NC\", \"ND\",\n  \"OH\", \"OK\", \"OR\", \"PA\", \"RI\", \"SC\", \"SD\", \"TN\", \"TX\", \"UT\", \"VT\", \"VA\", \"WA\", \"WV\", \"WI\", \"WY\",\n]\ndef extract_date(x):\n  pattern = r\"y=(\\d+)/m=(\\d+)/d=(\\d+)/h=(\\d+)\"\n  match = re.search(pattern, x)",
         "detail": "stats",
         "documentation": {}
     },
